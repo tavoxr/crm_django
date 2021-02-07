@@ -1,0 +1,9 @@
+#total-orders{
+    background-color: rgb(114, 202, 202);
+}
+#orders-pending{
+    background-color: rgb(228, 156, 62);
+}
+#orders-delivered{
+    background-color: rgb(93, 206, 93);
+}
