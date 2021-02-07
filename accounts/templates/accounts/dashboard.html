@@ -40,14 +40,15 @@
         <div class="card card-body  ">
             <h3>Last 5 Orders</h3>
             <hr style="margin: 2px 0 10px 0;"/>
-            <a class="btn btn-primary w-100">Create Order</a>
+            <a class="btn btn-primary w-100" href="{% url 'orders' %}">Create Order</a>
             <div class="table-responsive">
                 <table class="table table-hover mt-2">
                     <thead>
                         <tr class="table-info text-center">
                             <th scope="col">Product</th> 
-                            <th scope="col">Date</th> 
+                            <th scope="col">Date    </th> 
                             <th scope="col">Status</th> 
+                            <th scope="col">Delete</th>
                             <!-- <th scope="col">price</th> -->
                         </tr>
                     </thead>
@@ -55,9 +56,10 @@
                         {% for order in last5Orders%}
                             <tr>
                                 
-                                <td>{{order.product.name}}</td>
-                                <td>{{order.date_created}}</td>
-                                <td>{{order.status}}</td>
+                                <td><a class="btn w-100" href="{% url 'updateOrder' order.id %}">{{order.product.name}}</a></td>
+                                <td><a class="btn w-100" href="{% url 'updateOrder' order.id %}">{{order.date_created}}</a></td>
+                                <td><a class="btn w-100" href="{% url 'updateOrder' order.id %}">{{order.status}}</a></td>
+                                <td><a class="btn btn-danger" href="{% url 'deleteOrder' order.id %}"><i class="fas fa-trash"></i></a></td>
                             </tr>
                         {% endfor %}
                         

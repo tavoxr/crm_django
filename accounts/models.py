@@ -28,7 +28,7 @@ class Product(models.Model):
     tag = models.ManyToManyField(Tag)
 
     def __str__(self):
-        return f'{self.id} {self.name} {self.price} '
+        return f'{self.name} {self.price} '
 
 class Order(models.Model):
     
@@ -43,4 +43,4 @@ class Order(models.Model):
     status = models.CharField(max_length=12, choices=STATUS, default='PENDING' )
 
     def __str__(self):
-        return f'{self.id} {self.customer.name} -- {self.product.name}'
+        return f'Order No. {self.id}, Customer: {self.customer.name}, Product: {self.product.name}'
