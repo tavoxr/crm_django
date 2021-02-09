@@ -9,7 +9,7 @@ class Customer(models.Model):
     date_created = models.DateTimeField(auto_now_add  = True)
 
     def __str__(self):
-        return f'{self.id} {self.name} {self.email}'
+        return f'{self.name}'
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
@@ -28,7 +28,7 @@ class Product(models.Model):
     tag = models.ManyToManyField(Tag)
 
     def __str__(self):
-        return f'{self.name} {self.price} '
+        return f'{self.name} '
 
 class Order(models.Model):
     

@@ -1,16 +1,33 @@
 {% extends 'accounts/main.html' %}
 {% load static %}
+{% load crispy_forms_tags %}    
 
 {% block content %}
 
-<form method="POST">
-{% csrf_token %}
+<div class="row mt-3">
+    <div class="col-12 col-md-8 col-lg-6 mx-auto">
+        <div class="card card-body ">
+            <h3 class="text-center mb-3">Order</h3>
+            <form method="POST">
+                {% csrf_token%}
+
+                    {{form|crispy}}
+
+                    <div class="mb-3">
+                        <input class="btn btn-success btn-block" type="submit" name="Submit" value="{{option}}"  />
+                    </div>
+                    <div class="mb-3">
+                        <a class="btn btn-danger btn-block" href="{% url 'home' %}" >Cancel</a>
+                    
+                    </div>
+                </form>
+                
     
-    {{form}}
-    <div class="mb-3">
-        <input class="form-control" type="submit" name="Submit" />
+        </div>
+
     </div>
-</form>
+    
+</div>
 
 
 
