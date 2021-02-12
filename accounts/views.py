@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 
 from django.http import HttpResponse
 
+from django.forms import inlineformset_factory
 from .forms import *
 from .models import *
+from .filters import *
 # Create your views here.
 
 def home(request):
@@ -36,28 +38,34 @@ def customer(request,pk):
     customer = Customer.objects.get(id = pk)
     orders = customer.order_set.all()
     totalOrders = orders.count()
-    
+    myFilter = OrderFilter(request.GET, queryset= orders)
+    orders = myFilter.qs
     context = {
         'customer': customer,
         'orders': orders,
-        'totalOrders': totalOrders
+        'totalOrders': totalOrders,
+        'myFilter': myFilter
     }
     return render(request,'accounts/customer.html', context)
 
 
-def createOrder(request):
-    form = OrderForm()
+def createOrder(request, pk):
+    OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=5)
+    customer = Customer.objects.get(id=pk)
+    formSet = OrderFormSet(queryset= Order.objects.none(), instance= customer)
+    # form = OrderForm(initial={'customer': customer})
     context = {
-        'form': form,
+        'formSet': formSet,
         'option': 'Create'
     }
     if request.method == "POST":
         print('request.POST', request.POST)
 
-        form =OrderForm(request.POST)
+        formSet = OrderFormSet(request.POST, instance= customer)
+        # form =OrderForm(request.POST)
 
-        if form.is_valid():
-            form.save()
+        if formSet.is_valid():
+            formSet.save()
             return redirect('home')
     
 
@@ -113,7 +121,20 @@ def createCustomer(request):
 
 
 
+def login(request):
 
+    context={
+        'login': 'login'
+    }
+    return render(request,'accounts/login.html',context )
+
+
+def register(request):
+    context={
+        'register': 'register'
+    }
+    
+    return render(request, 'accounts/register.html', context)
 
 
 

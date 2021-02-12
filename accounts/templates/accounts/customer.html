@@ -1,5 +1,5 @@
 {% extends 'accounts/main.html' %}
-
+{% load crispy_forms_tags %}    
 {% block content %}
 <div class="row mt-3">
 	<div class="col-12 col-md-4">
@@ -7,7 +7,7 @@
 			<h5>{{customer.name}}</h5>
 			<hr>
 			<a class="btn btn-outline-info  btn-sm btn-block mb-2" href="">Update Customer</a>
-			<a class="btn btn-outline-success  btn-sm btn-block" href="">Place Order</a>
+			<a class="btn btn-outline-success  btn-sm btn-block" href="{% url 'orders' customer.id%}">Place Order</a>
 
 		</div>
 	</div>
@@ -37,6 +37,7 @@
 		<div class="card card-body">
 			<form method="get">
 
+				{{myFilter.form|crispy}}
 		    <button class="btn btn-primary" type="submit">Search</button>
 		  </form>
 		</div>

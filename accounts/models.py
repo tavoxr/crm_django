@@ -40,7 +40,7 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete = models.CASCADE)
     product = models.ForeignKey(Product, on_delete = models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=12, choices=STATUS, default='PENDING' )
+    status = models.CharField(max_length=12, choices=STATUS )
 
     def __str__(self):
         return f'Order No. {self.id}, Customer: {self.customer.name}, Product: {self.product.name}'
