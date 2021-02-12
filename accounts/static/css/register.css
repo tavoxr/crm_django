@@ -1,0 +1,15 @@
+body{
+    background-image: radial-gradient(circle, #76b3c0, #5799af, #3a7f9f, #21658d, #0f4b7a);
+}
+.contenedor{
+   /* background-color: black; */
+}
+
+
+
+.tarjeta{
+    background-image: linear-gradient(to right bottom, #eff2f2, #e8f0ef, #e2eeeb, #dcebe6, #d7e9e0);
+   
+    
+}
+
