@@ -3,14 +3,18 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm #para crear utilizar el formulario que creamos para creacion de Usuarios
 from django.contrib.auth import authenticate, login, logout # para la autencicacion de login de usuarios
+
 from django.forms import inlineformset_factory
 from .forms import *
 from .models import *
 from .filters import *
 from django.contrib import messages
+from django.contrib.auth.decorators import   login_required
 
 # Create your views here.
 
+
+@login_required(login_url='login')
 def home(request):
     orders = Order.objects.all()
     totalOrders= orders.count()
@@ -29,6 +33,8 @@ def home(request):
 
     return render(request, 'accounts/dashboard.html', data)
 
+
+@login_required(login_url='login')
 def products(request):
 
     products = Product.objects.all()
@@ -37,6 +43,8 @@ def products(request):
 
     return render(request,'accounts/products.html',data)
 
+
+@login_required(login_url='login')
 def customer(request,pk):
     customer = Customer.objects.get(id = pk)
     orders = customer.order_set.all()
@@ -52,6 +60,8 @@ def customer(request,pk):
     return render(request,'accounts/customer.html', context)
 
 
+
+@login_required(login_url='login')
 def createOrder(request, pk):
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=5)
     customer = Customer.objects.get(id=pk)
@@ -75,6 +85,8 @@ def createOrder(request, pk):
     return render(request,'accounts/orderForm.html', context)
 
 
+
+@login_required(login_url='login')
 def updateOrder(request,pk):
     order =  Order.objects.get(id=pk)
     form = OrderForm(instance = order)
@@ -91,6 +103,7 @@ def updateOrder(request,pk):
     return render(request, 'accounts/orderForm.html',context)
 
 
+@login_required(login_url='login')
 def deleteOrder(request,pk):
     order =  Order.objects.get(id= pk)
     context= {
@@ -106,6 +119,7 @@ def deleteOrder(request,pk):
 
 
 
+@login_required(login_url='login')
 def createCustomer(request):
     form = CustomerForm()    
     context = {
@@ -128,19 +142,23 @@ def loginPage(request):
     context = {
         'messageType': 'danger'
     }
+    if request.user.is_authenticated:
+        return redirect('home')
 
-    if request.method == "POST":
-        username = request.POST.get('username')
-        password =  request.POST.get('password')
+    else:
 
-        user = authenticate(request, username = username, password = password)
+        if request.method == "POST":
+            username = request.POST.get('username')
+            password =  request.POST.get('password')
 
-        if user is not None:
-            login(request, user)
-            return redirect('home')
-        else:
-            messages.info(request,'Username or Password is incorrect')
-            return render(request,'accounts/login.html', context )
+            user = authenticate(request, username = username, password = password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                messages.info(request,'Username or Password is incorrect')
+                return render(request,'accounts/login.html', context )
 
     return render(request,'accounts/login.html' )
 
@@ -151,19 +169,23 @@ def logoutUser(request):
 
 
 def register(request):
-    form = CreateUserForm()
-    context={
-        'form': form
-    }
+    if request.user.is_authenticated:
+        return redirect('home')
     
-    if request.method == "POST":
-        form = CreateUserForm(request.POST)
+    else:
+        form = CreateUserForm()
+        context={
+            'form': form
+        }
+    
+        if request.method == "POST":
+            form = CreateUserForm(request.POST)
 
-        if form.is_valid():
-            form.save()
-            user = form.cleaned_data.get('username')  #permite obtener el atributo username sin otro atributo del formulario createUserForm
-            messages.success(request, 'Account was created for ' + user)
-            return redirect('login')
+            if form.is_valid():
+                form.save()
+                user = form.cleaned_data.get('username')  #permite obtener el atributo username sin otro atributo del formulario createUserForm
+                messages.success(request, 'Account was created for ' + user)
+                return redirect('login')
     
     return render(request, 'accounts/register.html', context)
 
