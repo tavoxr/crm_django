@@ -1,0 +1,40 @@
+{% extends 'accounts/main.html' %}
+
+{% block content %}
+    {% include 'accounts/status.html' %}
+
+    <div class="row ">
+        <div class="col-12">
+    
+            <div class="card card-body">
+            <div class="table-responsive">
+    
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="table-info">
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for order in orders%}
+                    <tr>
+                        <td>{{order.product}}</td>
+                        <td>{{order.product.category}}</td>
+                        <td>{{order.date_created}}</td>
+                        <td>{{order.status}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                
+    
+                </table>
+            </div>
+    
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
