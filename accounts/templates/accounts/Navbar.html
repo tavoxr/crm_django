@@ -12,8 +12,10 @@
           {% if request.user.is_staff %}
           <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Dashboard</a>
           <a class="nav-link" href="{% url 'products' %}">Products</a>
+          {% else %}
+          <a class="nav-link" href="{%url 'account_settings'%}">Settings</a>
           {% endif %}
-          
+
           <a class="nav-link" href="{%url 'home'%}"> Hello, {{request.user}}</a>
           <a class="nav-link" href="{% url 'logout'%}">Log Out</a>
          
