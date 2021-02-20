@@ -57,13 +57,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
             userName = form.cleaned_data.get('username')  #permite obtener el atributo username sin otro atributo del formulario createUserForm
-
-            group = Group.objects.get(name='customer')    
-            user.groups.add(group) #para agregar el grupo directamente al registrar usuario, customer en este caso
-            Customer.objects.create(
-                user = user,
-                name = user.username
-            )
             messages.success(request, 'Account was created for ' + userName)
             return redirect('login')
     
