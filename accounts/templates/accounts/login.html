@@ -44,10 +44,15 @@
                     <input class="btn btn-success btn-block" type="submit" name="createUser" value="Login"/>
                 
                 </form>
+                
                 <div class="d-flex justify-content-center mt-3 ">
-                <small  >Don't have an account? <a href="{% url 'register' %}">Sign In</a></small>
-
+                    <small  >Don't have an account? <a href="{% url 'register' %}">Sign In</a></small>
                 </div>
+
+                <div class="d-flex justify-content-center mt-3 ">
+                    <small  >Forgot password? <a href="{% url 'password_reset' %}">Reset Password</a></small>
+                </div>
+
                 <div class="mt-2">
                     {% for message in messages %}
                         {% if message.tags == 'success'%}
